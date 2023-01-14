@@ -58,36 +58,6 @@ module "blog_sg" {
 resource "aws_security_group" "blog" {
   name = "blog"
   description = "allow https and http in, allow everything out"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = module.vpc.public_subnets[0]
 
-}
-
-resource "aws_security_group_rule" "blog_http_in" {
-  type =      "ingress"
-  from_port    = 80
-  to_port      = 80
-  protocol     = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.blog.id
-}
-
-resource "aws_security_group_rule" "blog_https_in" {
-  type =      "ingress"
-  from_port    = 443
-  to_port      = 443
-  protocol     = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.blog.id
-}
-
-resource "aws_security_group_rule" "blog_everything_out" {
-  type =      "ingress"
-  from_port    = 0
-  to_port      = 0
-  protocol     = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = aws_security_group.blog.id
 }
